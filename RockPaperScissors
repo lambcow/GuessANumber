@@ -1,0 +1,88 @@
+import java.util.Scanner;
+public class RockPaperScissors {
+    public static String[] choices = {"rock", "paper", "scissors"};
+    public static String[] shootJokes = {"Oh nooooo! I've been shot! Tell my mother... I love her....",
+        "Why would you shoot a computer?!?!!?!?!", "*dodges bullet like in the matrix* HA! JOKES ON YOU!",
+        "Please don't, that's not what I meant when I said shoot.... I meant, like, \"GO!\""};
+    public static void main(String[] args) 
+    {
+        Scanner scan = new Scanner(System.in);
+        int rock = 1;
+        int paper = 2;
+        int scissors = 3;
+        String playAgain;
+        String response;
+        System.out.println("I've got a game for you! Rock, Paper, Scissors! Type \"ok\" to play!");
+        response = scan.nextLine();
+        while (!response.equals("ok")) {
+            System.out.println("Noooo, say \"ok\"!");
+            response = scan.nextLine();
+        }
+        int userMove = 0;
+        int proMove = 0;
+        int userWins = 0;
+        int proWins = 0;
+        int ties = 0;
+        System.out.println("Awesome!");
+        do {
+            System.out.println("Get ready!\nRock, Paper, Scissors, Shoot! (pick one!)");
+            String useMove = scan.nextLine();
+            while (useMove.equals("Shoot") || useMove.equals("shoot")) {
+                System.out.println(shootJokes[joke()]);
+                System.out.println("But in all seriousness, pick a real choice... Go!");
+                useMove = scan.nextLine();
+            }
+            //takes input and converts it into the variables so we can compare.
+            if (useMove.equals("scissors") || useMove.equals("Scissors") || useMove.equals("s")) {
+                userMove = scissors;
+            } else if (useMove.equals("paper") || useMove.equals("Paper") || useMove.equals("p")) {
+                userMove = paper;
+            } else if (useMove.equals("rock") || useMove.equals("Rock") || useMove.equals("r")) {
+                userMove = rock;
+            }
+            String progMove = choices[result()]; //this will generate a random element for the computer
+            if (progMove.equals("scissors") || progMove.equals("Scissors") || progMove.equals("s")) {
+                proMove = scissors;
+            } else if (progMove.equals("paper") || progMove.equals("Paper") || progMove.equals("p")) {
+                proMove = paper;
+            } else if (progMove.equals("rock") || progMove.equals("Rock") || progMove.equals("r")) {
+                proMove = rock;
+            }
+            //prints the computers move
+            switch (proMove) {
+                case 1: System.out.println("rock");
+                break;
+                case 2: System.out.println("paper");
+                break;
+                case 3: System.out.println("scissors");
+                break;
+                default:
+                break;
+            }
+            //now for the game results...
+            if (proMove == userMove) {
+                System.out.println("It's a tie!");
+                ++ties;
+            } else if ((proMove == 1 && userMove == 3) || (proMove == 2 && userMove == 1) || (proMove == 3 && userMove == 2)) {
+                System.out.println("I win!");
+                ++proWins;
+            } else if ((userMove == 1 && proMove == 3) || (userMove == 2 && proMove == 1) || (userMove == 3 && proMove == 2)) {        
+                System.out.println("You win!");
+                ++userWins;
+            }
+            System.out.println("My wins: " + proWins + "\nYour wins: " + userWins + "\nTies: " + ties);
+            System.out.println("Want to play again? (Type yes or no)");
+            playAgain = scan.nextLine();
+        } while (playAgain.equals("yes") || playAgain.equals("y") || playAgain.equals("Yes"));
+        
+        System.out.println("Okay, well, it's been real. \nYou won " + userWins + " times, and I won " + proWins + "times.");
+    }
+    public static int result() {
+        int num = (int) Math.floor(Math.random() * choices.length);
+        return num;
+    }
+    public static int joke() {
+        int funny = (int) Math.floor(Math.random() * choices.length);
+        return funny;
+    }
+}
