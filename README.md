@@ -1,4 +1,3 @@
 # GuessANumber
-This is for a game where you guess a random number. Get rekt.
-I already have the Java code for this written up, but I want to see if I can make it better and probably use some methods so my
-code isn't so trash and repetetive, though... But I can't figure out how to upload the code here... or even where to paste it...
+This is for a game where you guess a random number.
+I have the original code I wrote for this game already uploaded here, and I'm considering starting over with better techniques now that I've had a whole semester of Java under my belt.
