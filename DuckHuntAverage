@@ -1,0 +1,45 @@
+import java.util.Scanner;
+public class DuckHunt
+{
+    public static void main(String[] args)
+    {
+        double shots = 0; //how many shots it takes to hit the duck (4 means you missed)
+        double total = 0;
+        double average;
+        double rAv; //round average
+        double rTot = 0; // round total
+        String user;
+        int[] perLevel = new int[10];
+        int i = 0; //counter
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Who is playing DuckHunt?");
+        user = scan.nextLine();
+        System.out.println("Enter the numbers to calculate the average.");
+        while (shots != 5)
+        {
+            
+            shots = scan.nextDouble();
+            if (shots == 5) 
+            {
+                break;
+            }
+            perLevel[i%10] = (int) shots;
+            total += shots;
+            i++;
+            average = total / i;
+            System.out.println(user + " your average is: " + average);
+            if (i%10 == 0)
+            {
+                //resets values for new rounds.
+                rTot = 0;
+                rAv = 0;
+                for (int j = 0; j < perLevel.length; j++) 
+                {
+                    rTot += perLevel[j];
+                }
+                rAv = rTot / 10;
+                System.out.println("Average for the round is: " + rAv);
+            }
+        }
+    }
+}
