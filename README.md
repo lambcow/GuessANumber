@@ -1,3 +1,2 @@
-# GuessANumber
-This is for a game where you guess a random number.
-I have the original code I wrote for this game already uploaded here, and I'm considering starting over with better techniques now that I've had a whole semester of Java under my belt.
+# ProjectsFromSem1
+This repository is for all the little games and stuff I started working on in my first Semester at ASU. I've got a couple different projects I did, and I may branch them off/duplicate them or just entirely rewrite them not that I've had the entire semester to learn how to do things. And now I've been learning java gui on my own the past few weeks, so I may adapt a few of my projects to use gui instead of the console system prompt (or whatever it's called?).
