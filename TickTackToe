@@ -1,0 +1,280 @@
+//BUGS TO FIX:
+//
+//
+//IDEAS TO ADD
+//REPORT HOW MANY MOVES IT TOOK TO WIN
+//
+import java.util.*;
+
+public class TicTacToe {
+
+    static Scanner scan = new Scanner(System.in);
+    static String[][] theGrid = new String[3][3];
+    static String dashes = " - ";
+    static String uTurn;
+    static String cTurn;
+    static int compMove;
+    static String userMove;
+    static boolean win = false;
+    static boolean catsGame = false;
+    static String whoWins = "";
+    static int xx = 0;
+    static int yy = 0;
+    static String playAgain = "";
+    static int turn = 1;
+    public static void main(String[] args) {
+        //Start the game
+        resetGameBoard();
+        System.out.println("Heyyyy, let's play tic-tac-toe!\n" + "Do you want to be X's or O's?");
+        String xo = scan.nextLine();
+        xo = xo.toUpperCase();
+        while (!xo.equals("X") && !xo.equals("O")) {
+            System.out.println("Pick whether you want to be X or O!");
+            xo = scan.nextLine();
+            xo = xo.toUpperCase();
+        }
+        if (xo.equals("X")) { //this will assign the variable for user vs computer; x vs o
+            uTurn = " X ";
+            cTurn = " O ";
+        } else {
+            uTurn = " O ";
+            cTurn = " X ";
+        }
+        System.out.println("Need me to explain how this works? (for new players!!!!)");
+        String explain = scan.nextLine();
+        explain = explain.toUpperCase();
+        while (!explain.equals("NO") && !explain.equals("YES")) {
+            System.out.println("Say yes or no!");
+            explain = scan.nextLine();
+            explain = explain.toUpperCase();
+        }
+        if (explain.equals("YES")) {
+            System.out.println("Okay, what's going to happen is I'm going to show you a three by three grid like this: \n");
+            System.out.println(printGameBoard());
+            System.out.println("Each dash corresponds with a letter on the keyboard like this: ");
+            System.out.println("\nq w e\na s d\nz x c\n");
+            System.out.println("You'll notice that's the 3x3 leftmost section of your qwerty keyboard.");
+            System.out.println("All you have to do is enter the letter that's in the same spot as where you want to play!");
+            System.out.println("Are you ready to start?");
+            String ready = scan.nextLine();
+            ready = ready.toUpperCase();
+            while (!ready.equals("YES")) {
+                System.out.println("Take your time. Read over the instructions again... ask a friend to interpret...");
+                System.out.println("Type yes when you're ready to begin.");
+                ready = scan.nextLine();
+                ready = ready.toUpperCase();
+            }
+        }
+        do {
+            resetGameBoard();
+            System.out.println("Alright! Let's start. Type 1 to go first or 2 to go second.");
+            String first = scan.nextLine(); 
+            while (!first.equals("1") && !first.equals("2")) {
+                System.out.println("Hey, pick 1 or 2 to go first or second!!!");
+                first = scan.nextLine();
+            }   
+
+            if (first.equals("1")) {
+                System.out.println("Cool, make your move then!" + "\n");
+                printGameBoard();
+                userTurn();
+                turn++;
+            }
+
+            while (!win) {
+                computerTurn();
+                turn++;
+                checkWin();
+                if (win) { //exits loop if the computer wins so user doesn't have another turn after someone already won
+                    break;
+                }
+                userTurn();
+                turn++;
+                checkWin();
+            }
+            System.out.print("\nGame over! ");
+            System.out.println(whoWins);
+            System.out.print("Want to play again? ");
+            while (!playAgain.equals("YES") && !playAgain.equals("NO")) {
+                System.out.println("Type yes or no.");
+                playAgain = scan.nextLine().toUpperCase();
+            }
+        } while (playAgain.equals("YES"));
+        System.out.println("Okay, well thanks for playing!");
+    }
+
+    public static int comp() {
+        int comMove = (int) Math.floor(Math.random() * 10); //Will pick a number for the index of a response from grid
+        return comMove;
+    }
+
+    public static String userTurn() {
+        int loop = 0;
+        do {
+            if (loop == 0) { 
+                System.out.println("\n" + "Your turn!");
+                userMove = scan.nextLine();
+            }
+            if (loop > 0) {
+                System.out.println("Hey, pick a different spot!");
+                userMove = scan.nextLine();
+            }
+            switch (userMove) { //User moves
+                case "q": xx = 0; yy = 0; break;
+                case "w": xx = 0; yy = 1; break;
+                case "e": xx = 0; yy = 2; break;
+                case "a": xx = 1; yy = 0; break;
+                case "s": xx = 1; yy = 1; break;
+                case "d": xx = 1; yy = 2; break;
+                case "z": xx = 2; yy = 0; break;
+                case "x": xx = 2; yy = 1; break;
+                case "c": xx = 2; yy = 2; break;
+                default: tryAgain(); break;
+            }
+            loop++;
+        } while (theGrid[xx][yy].equals(cTurn) || theGrid[xx][yy].equals(uTurn));
+        updateGameBoard(xx, yy, uTurn);
+        return printGameBoard();
+    }
+
+    public static String tryAgain() {
+
+        while (!userMove.equals("q") && !userMove.equals("w") && !userMove.equals("e") && !userMove.equals("a") && !userMove.equals("s") && !userMove.equals("d") && !userMove.equals("z") && !userMove.equals("x") && !userMove.equals("c")) {
+            System.out.println("Hey, choose a valid spot! (Make sure your caps lock is off)");
+            userMove = scan.nextLine();
+        }
+        switch (userMove) { //User moves
+            case "q": xx = 0; yy = 0; break;
+            case "w": xx = 0; yy = 1; break;
+            case "e": xx = 0; yy = 2; break;
+            case "a": xx = 1; yy = 0; break;
+            case "s": xx = 1; yy = 1; break;
+            case "d": xx = 1; yy = 2; break;
+            case "z": xx = 2; yy = 0; break;
+            case "x": xx = 2; yy = 1; break;
+            case "c": xx = 2; yy = 2; break;
+            default:; break;
+        }
+        return userMove;
+    }
+
+    public static String computerTurn() { //This basically does the computers turn //picks random spot for comp to play
+        System.out.println("My turn!\n");
+        int x = 0; int y = 0;
+        do {
+            compMove = comp();
+            switch (compMove) { //Computer moves
+                case 1: x = 0; y = 0; break;
+                case 2: x = 0; y = 1; break;
+                case 3: x = 0; y = 2; break;
+                case 4: x = 1; y = 0; break;
+                case 5: x = 1; y = 1; break;
+                case 6: x = 1; y = 2; break;
+                case 7: x = 2; y = 0; break;
+                case 8: x = 2; y = 1; break;
+                case 9: x = 2; y = 2; break;
+                default:; break;
+            }
+        } while (theGrid[x][y].equals(cTurn) || theGrid[x][y].equals(uTurn));
+        updateGameBoard(x, y, cTurn); 
+        return printGameBoard();
+    }
+
+    public static String resetGameBoard() {
+        for (int i = 0; i < theGrid.length; i++) {
+            for (int j = 0; j < theGrid[i].length; j++) {
+                theGrid[i][j] = " - ";
+            }
+        }
+        turn = 1;
+        win = false;
+        catsGame = false;
+        playAgain = "";
+        return "";
+    }
+
+    public static String printGameBoard() {
+        for (String[] row : theGrid) {
+            for (String spot : row) {
+                System.out.print(spot);
+            }
+            System.out.println();
+        }
+        return "";
+    }
+
+    public static void updateGameBoard(int x, int y, String who) {
+        theGrid[x][y] = who;
+    }
+
+    public static boolean checkWin() {
+        boolean wins = false;
+        if (theGrid[0][0].equals(theGrid[0][1]) && theGrid[0][0].equals(theGrid[0][2]) && !theGrid[0][0].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,0);
+        } else
+
+        if (theGrid[1][0].equals(theGrid[1][1]) && theGrid[1][0].equals(theGrid[1][2]) && !theGrid[1][0].equals(" - ")) {
+            wins = !wins;
+            checkWinner(1,0);
+        } else
+
+        if (theGrid[2][0].equals(theGrid[2][1]) && theGrid[2][0].equals(theGrid[2][2]) && !theGrid[2][0].equals(" - ")) {
+            wins = !wins;
+            checkWinner(2,0);
+        } else
+
+        if (theGrid[0][0].equals(theGrid[1][0]) && theGrid[0][0].equals(theGrid[2][0]) && !theGrid[0][0].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,0);
+        } else
+
+        if (theGrid[0][1].equals(theGrid[1][1]) && theGrid[0][1].equals(theGrid[2][1]) && !theGrid[0][1].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,1);
+        } else
+
+        if (theGrid[0][2].equals(theGrid[1][2]) && theGrid[0][2].equals(theGrid[2][2]) && !theGrid[0][2].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,2);
+        } else
+
+        if (theGrid[0][0].equals(theGrid[1][1]) && theGrid[0][0].equals(theGrid[2][2]) && !theGrid[0][0].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,0);
+        } else
+
+        if (theGrid[0][2].equals(theGrid[1][1]) && theGrid[0][2].equals(theGrid[2][0]) && !theGrid[0][2].equals(" - ")) {
+            wins = !wins;
+            checkWinner(0,2);
+        } else 
+
+        if (turn == 10) {
+            wins = !wins;
+            catsGame = !catsGame;
+            checkWinner(0,0);
+        } else {
+            wins = wins;
+        }
+
+        if (wins) {
+            win = !win;
+            return win;
+        } else {
+            return win;
+        }
+    }
+
+    public static String checkWinner(int x, int y) {
+        if (!catsGame) {
+            if (theGrid[x][y].equals(uTurn)) {
+                whoWins = "You won!!!!";
+            } else if (theGrid[x][y].equals(cTurn)) { 
+                whoWins = "I win!! Muhahahhahaha";
+            }
+        } else if (catsGame) {
+            whoWins = "It's a catsgame! Nobody won /:";
+        }
+        return whoWins;
+    }
+}
