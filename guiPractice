@@ -1,0 +1,46 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+class Combo extends JFrame {
+
+	JButton b1;
+	JTextField tf1;
+	JLabel lab1, lab2;
+		
+	public Combo() {
+		lab1 = new JLabel("Enter your score here: ");
+		tf1 = new JTextField(100);
+		b1 = new JButton("Save Score");
+		lab2 = new JLabel("");
+		
+		
+		event e = new event();
+		b1.addActionListener(e);
+		
+		setLayout(new FlowLayout());
+				
+		add(lab1);
+		add(tf1);
+		add(b1);
+		add(lab2);
+		
+		
+	}
+	
+	public class event implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			lab2.setText(tf1.getText());
+		}
+	}
+	
+	public static void main(String[] args) {
+		Combo gui = new Combo();
+		gui.setVisible(true);
+		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui.setTitle("Button Press");
+		gui.pack();
+	}
+	
+}
+
